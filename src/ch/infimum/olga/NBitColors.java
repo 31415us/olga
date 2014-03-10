@@ -66,5 +66,24 @@ public class NBitColors implements Iterable<Integer>
 
         return dist;
     }
+
+    public static int brightness(int color)
+    {
+        int red = (color & RED_MASK) >> 16; 
+        int green = (color & GREEN_MASK) >> 8;
+        int blue = (color & BLUE_MASK);
+
+        double brightness = red*red*0.241 + green*green*0.691 + blue*blue*0.068;
+
+        return (int)brightness;
+    }
+
+    public static int warmth(int color)
+    {
+        int red = (color & RED_MASK) >> 16;
+        int blue = (color & BLUE_MASK);
+
+        return (red - blue);
+    }
 }
 
