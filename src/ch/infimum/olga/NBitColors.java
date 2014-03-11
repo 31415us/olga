@@ -85,5 +85,10 @@ public class NBitColors implements Iterable<Integer>
 
         return (red - blue);
     }
+
+    public static int hammingDist(int color1, int color2)
+    {
+        return Integer.bitCount(color1 ^ color2);
+    }
 }
 
