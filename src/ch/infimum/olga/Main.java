@@ -7,7 +7,7 @@ public class Main
 {
     public static void main(String[] args)
     {
-        ImageGenerator generator = new ImageGenerator(6,"test.png", new AvgHammingDistEvaluator());
+        ImageGenerator generator = new ImageGenerator(5,"HueEvaluator.png", new HueEvaluator());
 
         generator.generate();
     }
@@ -190,3 +190,219 @@ class AvgHammingDistEvaluator implements Evaluator
     }
 }
 
+class ChebyshevDistEvaluator implements Evaluator
+{
+
+    public int evaluate(int color, List<Integer> nColors) {
+
+        int min = Integer.MAX_VALUE;
+        for(int neigh : nColors) {
+            int dist = NBitColors.chebyshevDist(color,neigh);
+            if(dist < min) min = dist;
+        }
+
+        return min;
+    }
+
+}
+
+class TaxiCabEvaluator implements Evaluator
+{
+
+    public int evaluate(int color, List<Integer> nColors) {
+
+        int min = Integer.MAX_VALUE;
+        for(int neigh : nColors) {
+            int dist = NBitColors.taxiCab(color,neigh);
+            if(dist < min) min = dist;
+        }
+
+        return min;
+    }
+
+}
+
+class MinkowskiDistEvaluator implements Evaluator
+{
+
+    public int evaluate(int color, List<Integer> nColors) {
+
+        int min = Integer.MAX_VALUE;
+        for(int neigh : nColors) {
+            int dist = NBitColors.minkowskiDist(color,neigh);
+            if(dist < min) min = dist;
+        }
+
+        return min;
+    }
+
+}
+
+class DamerauDistEvaluator implements Evaluator
+{
+
+    public int evaluate(int color, List<Integer> nColors) {
+
+        int min = Integer.MAX_VALUE;
+        for(int neigh : nColors) {
+            int dist = NBitColors.damerauDist(color,neigh);
+            if(dist < min) min = dist;
+        }
+
+        return min;
+    }
+
+}
+
+class JaccardDistEvaluator implements Evaluator
+{
+
+    public int evaluate(int color, List<Integer> nColors) {
+
+        int min = Integer.MAX_VALUE;
+        for(int neigh : nColors) {
+            int dist = NBitColors.jaccardDist(color,neigh);
+            if(dist < min) min = dist;
+        }
+
+        return min;
+    }
+
+}
+
+class ChromaDifEvaluator implements Evaluator
+{
+    public int evaluate(int color, List<Integer> nColors)
+    {
+        int min = Integer.MAX_VALUE;
+
+        for(int n : nColors)
+        {
+            int diff = NBitColors.chroma(color) - NBitColors.chroma(n);
+            diff = Math.abs(diff);
+
+            if(diff < min)
+            {
+                min = diff;
+            }
+        }
+
+        return min;
+    }
+}
+
+class LuminanceDifEvaluator implements Evaluator
+{
+    public int evaluate(int color, List<Integer> nColors)
+    {
+        int min = Integer.MAX_VALUE;
+
+        for(int n : nColors)
+        {
+            int diff = NBitColors.luminance(color) - NBitColors.luminance(n);
+            diff = Math.abs(diff);
+
+            if(diff < min)
+            {
+                min = diff;
+            }
+        }
+
+        return min;
+    }
+}
+
+class SaturationEvaluator implements Evaluator
+{
+    public int evaluate(int color, List<Integer> nColors)
+    {
+        int min = Integer.MAX_VALUE;
+
+        for(int n : nColors)
+        {
+            int diff = NBitColors.saturation(color) - NBitColors.saturation(n);
+            diff = Math.abs(diff);
+
+            if(diff < min)
+            {
+                min = diff;
+            }
+        }
+
+        return min;
+    }
+}
+
+class LumaEvaluator implements Evaluator
+{
+    public int evaluate(int color, List<Integer> nColors)
+    {
+        int min = Integer.MAX_VALUE;
+
+        for(int n : nColors)
+        {
+            int diff = NBitColors.luma(color) - NBitColors.luma(n);
+            diff = Math.abs(diff);
+
+            if(diff < min)
+            {
+                min = diff;
+            }
+        }
+
+        return min;
+    }
+}
+
+class HellingerDistEvaluator implements Evaluator
+{
+
+    public int evaluate(int color, List<Integer> nColors) {
+
+        int min = Integer.MAX_VALUE;
+        for(int neigh : nColors) {
+            int dist = NBitColors.hellingerDist(color,neigh);
+            if(dist < min) min = dist;
+        }
+
+        return min;
+    }
+
+}
+
+class KullbackDistEvaluator implements Evaluator
+{
+
+    public int evaluate(int color, List<Integer> nColors) {
+
+        int min = Integer.MAX_VALUE;
+        for(int neigh : nColors) {
+            int dist = NBitColors.kullbackDist(color,neigh);
+            if(dist < min) min = dist;
+        }
+
+        return min;
+    }
+
+}
+
+class HueEvaluator implements Evaluator
+{
+    public int evaluate(int color, List<Integer> nColors)
+    {
+        int min = Integer.MAX_VALUE;
+
+        for(int n : nColors)
+        {
+            int diff = NBitColors.hue(color) - NBitColors.hue(n);
+            diff = Math.abs(diff);
+
+            if(diff < min)
+            {
+                min = diff;
+            }
+        }
+
+        return min;
+    }
+}
