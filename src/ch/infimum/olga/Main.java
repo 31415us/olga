@@ -7,7 +7,7 @@ public class Main
 {
     public static void main(String[] args)
     {
-        ImageGenerator generator = new ImageGenerator(5,"HueEvaluator.png", new HueEvaluator());
+        ImageGenerator generator = new ImageGenerator(5,"FramelessDamerau.png", new DamerauDistEvaluator(),false);
 
         generator.generate();
     }

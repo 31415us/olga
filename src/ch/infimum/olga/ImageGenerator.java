@@ -19,8 +19,10 @@ public class ImageGenerator
     private int width;
     private int height;
 
+    private boolean strictFrame;
 
-    public ImageGenerator(int bitsPerChannel, String fileName, Evaluator evaluator)
+
+    public ImageGenerator(int bitsPerChannel, String fileName, Evaluator evaluator, boolean strictFrame)
     {
         this.bitsPerChannel = bitsPerChannel;
         this.fileName = fileName;
@@ -30,8 +32,21 @@ public class ImageGenerator
         int shorter = length / 2;
         int longer = length - shorter;
 
-        this.width = (1 << longer);
-        this.height = (1 << shorter);
+        int w = (1 << longer);
+        int h = (1 << shorter);
+
+        if(strictFrame)
+        {
+            this.width = w;
+            this.height = h;
+        }
+        else
+        {
+            this.width = 4*w;
+            this.height = 4*w;
+        }
+
+        this.strictFrame = strictFrame;
     }
 
     public void generate()
@@ -57,7 +72,15 @@ public class ImageGenerator
         for(int color : colorPermutation)
         {
 
-            Pixel best = new Pixel(rnd.nextInt(width),rnd.nextInt(height));
+            Pixel best = null;
+            if(strictFrame)
+            {
+                best = new Pixel(rnd.nextInt(width),rnd.nextInt(height));
+            }
+            else
+            {
+                best = new Pixel(width/2,height/2);
+            }
             int bestValue = Integer.MAX_VALUE;
             for(Pixel p : openSet)
             {
