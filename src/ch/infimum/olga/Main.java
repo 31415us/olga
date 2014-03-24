@@ -34,6 +34,7 @@ public class Main
 
         ImageGenerator generator = new ImageGenerator(6,pngName.toString(),rng,eval,strictFrame);
 
+        // generators gonna generate .-P
         generator.generate();
     }
 }
