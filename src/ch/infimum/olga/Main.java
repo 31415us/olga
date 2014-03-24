@@ -2,12 +2,37 @@
 package ch.infimum.olga;
 
 import java.util.List;
+import java.util.Random;
 
 public class Main
 {
     public static void main(String[] args)
     {
-        ImageGenerator generator = new ImageGenerator(5,"FramelessDamerau.png", new DamerauDistEvaluator(),false);
+
+        if(args.length == 0)
+        {
+            System.out.println("please provide some string as argument.");
+            return;
+        }
+
+        String name = args[0];
+
+        StringBuilder pngName = new StringBuilder(name);
+        pngName.append(".png");
+
+        Random rng = new Random(name.hashCode());
+
+        Evaluator[] evaluators = {new MinDistanceEvaluator(), new MinBrightnessDifferenceEvaluator(),
+                                  new MinWarmthDiffEvaluator(), new MinHammingDistEvaluator(), new ChebyshevDistEvaluator(),
+                                  new TaxiCabEvaluator(), new MinDistanceEvaluator(), new DamerauDistEvaluator(),
+                                  new JaccardDistEvaluator(), new ChromaDifEvaluator(), new LuminanceDifEvaluator(),
+                                  new SaturationEvaluator(), new LuminanceDifEvaluator(), new HellingerDistEvaluator(),
+                                  new KullbackDistEvaluator(), new HueEvaluator()};
+
+        Evaluator eval = evaluators[rng.nextInt(evaluators.length)];
+        boolean strictFrame = rng.nextBoolean();
+
+        ImageGenerator generator = new ImageGenerator(5,pngName.toString(),rng,eval,strictFrame);
 
         generator.generate();
     }

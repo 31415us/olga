@@ -15,6 +15,7 @@ public class ImageGenerator
     private int bitsPerChannel;
     private String fileName;
     private Evaluator evaluator;
+    private Random rng;
 
     private int width;
     private int height;
@@ -22,11 +23,12 @@ public class ImageGenerator
     private boolean strictFrame;
 
 
-    public ImageGenerator(int bitsPerChannel, String fileName, Evaluator evaluator, boolean strictFrame)
+    public ImageGenerator(int bitsPerChannel, String fileName, Random rng, Evaluator evaluator, boolean strictFrame)
     {
         this.bitsPerChannel = bitsPerChannel;
         this.fileName = fileName;
         this.evaluator = evaluator;
+        this.rng = rng;
 
         int length = 3 * bitsPerChannel;
         int shorter = length / 2;
@@ -55,14 +57,12 @@ public class ImageGenerator
 
         ArrayList<Integer> colorPermutation = new ArrayList<Integer>(width * height);
 
-        Random rnd = new Random();
-
         for(int color : colorStream)
         {
             colorPermutation.add(color);
         }
 
-        Collections.shuffle(colorPermutation, rnd);
+        Collections.shuffle(colorPermutation, rng);
 
         BufferedImage img = new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);
 
@@ -75,7 +75,7 @@ public class ImageGenerator
             Pixel best = null;
             if(strictFrame)
             {
-                best = new Pixel(rnd.nextInt(width),rnd.nextInt(height));
+                best = new Pixel(rng.nextInt(width),rng.nextInt(height));
             }
             else
             {
