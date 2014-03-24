@@ -19,6 +19,7 @@
 	<target name="run" depends="compile">
 		<echo>Execute Main.class</echo>
 		<java classname="ch.infimum.olga.Main" fork="true">
+            <arg value="${name}"/>
 			<classpath>
 				<pathelement path="${build}"/>
 			</classpath>
