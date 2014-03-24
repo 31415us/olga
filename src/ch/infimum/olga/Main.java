@@ -32,7 +32,7 @@ public class Main
         Evaluator eval = evaluators[rng.nextInt(evaluators.length)];
         boolean strictFrame = rng.nextBoolean();
 
-        ImageGenerator generator = new ImageGenerator(5,pngName.toString(),rng,eval,strictFrame);
+        ImageGenerator generator = new ImageGenerator(6,pngName.toString(),rng,eval,strictFrame);
 
         generator.generate();
     }
