@@ -204,9 +204,9 @@ public class NBitColors implements Iterable<Integer>
 
     // Minkowski distance
     // http://en.wikipedia.org/wiki/Minkowski_distance
-    public static int minkowskiDist(int color1, int color2) {
+    public static int minkowskiDist(int color1, int color2, double k) {
 
-        double p = 8;
+        double p = k;
         // use p >= 1 we have the Minkowski inequality
         // careful : the higher the power, the longer the wait
 

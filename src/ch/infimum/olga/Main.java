@@ -24,15 +24,14 @@ public class Main
 
         Evaluator[] evaluators = {new MinDistanceEvaluator(), new MinBrightnessDifferenceEvaluator(),
                                   new MinWarmthDiffEvaluator(), new MinHammingDistEvaluator(), new ChebyshevDistEvaluator(),
-                                  new TaxiCabEvaluator(), new MinDistanceEvaluator(), new DamerauDistEvaluator(),
-                                  new JaccardDistEvaluator(), new ChromaDifEvaluator(), new LuminanceDifEvaluator(),
-                                  new SaturationEvaluator(), new LuminanceDifEvaluator(), new HellingerDistEvaluator(),
+                                  new TaxiCabEvaluator(), new MinkowskiDistEvaluator(rng.nextFloat()*20), new DamerauDistEvaluator(),
+                                  new HellingerDistEvaluator(),
                                   new KullbackDistEvaluator(), new HueEvaluator()};
 
         Evaluator eval = evaluators[rng.nextInt(evaluators.length)];
         boolean strictFrame = rng.nextBoolean();
 
-        ImageGenerator generator = new ImageGenerator(6,pngName.toString(),rng,eval,strictFrame);
+        ImageGenerator generator = new ImageGenerator(6,pngName.toString(),rng,eval,true);
 
         // generators gonna generate .-P
         generator.generate();
@@ -251,11 +250,17 @@ class TaxiCabEvaluator implements Evaluator
 class MinkowskiDistEvaluator implements Evaluator
 {
 
+    private double k;
+
+    public MinkowskiDistEvaluator(double k2) {
+        k = k2;
+    }
+
     public int evaluate(int color, List<Integer> nColors) {
 
         int min = Integer.MAX_VALUE;
         for(int neigh : nColors) {
-            int dist = NBitColors.minkowskiDist(color,neigh);
+            int dist = NBitColors.minkowskiDist(color,neigh,k);
             if(dist < min) min = dist;
         }
 
