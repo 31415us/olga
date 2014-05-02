@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<project name="test" default="run" basedir=".">
+
+	<property name="src" value="./src"/>
+	<property name="build" value="./build"/>
+	<property name="lib" value="./lib"/>
+
+	<path id="classpath">
+		<fileset dir="${lib}" includes="**/*.jar" />
+	</path>
+
+	<target name="compile">
+		<echo>Compile Sources</echo>
+		<javac srcdir="${src}" destdir="${build}"
+			classpathref="classpath"
+			includeantruntime="true"/>
+	</target>
+
+	<target name="run" depends="compile">
+		<echo>Execute Main.class</echo>
+		<java classname="ch.infimum.olga.Main" fork="true">
+            <arg value="${name}"/>
+			<classpath>
+				<pathelement path="${build}"/>
+			</classpath>
+		</java>	
+	</target>
+
+	<target name="clean">
+		<echo>Delete all .class files</echo>
+		<delete verbose="true">
+			<fileset dir="${build}"/>
+		</delete>
+	</target>
+</project>
