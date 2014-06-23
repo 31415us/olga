@@ -37,6 +37,22 @@ func EuclideanDistEval(c1, c2 int) int {
     return dr*dr + dg*dg + db*db
 }
 
+func BrightnessDistEval(c1, c2 int) int {
+    var red1 = float64((c1 & RED_MASK) >> 16)
+    var green1 = float64((c1 & GREEN_MASK) >> 8)
+    var blue1 = float64((c1 & BLUE_MASK))
+
+    var brightness1 = int(red1*red1*0.241 + green1*green1*0.691 + blue1*blue1*0.068)
+
+    var red2 = float64((c2 & RED_MASK) >> 16)
+    var green2 = float64((c2 & GREEN_MASK) >> 8)
+    var blue2 = float64((c2 & BLUE_MASK))
+
+    var brightness2 = int(red2*red2*0.241 + green2*green2*0.691 + blue2*blue2*0.068)
+
+    return brightness1 - brightness2
+}
+
 func HammingDistEval(c1, c2 int) int {
     var hamming = c1 ^ c2
     var count = 0
@@ -252,6 +268,7 @@ func computeImage(colorList []int, pixelList []int, rng *rand.Rand, eval Evaluat
     colorIndex = colorIndex + 1
 
     var firstPixel = rng.Intn(width * height)
+    //var firstPixel, _ = coordToIndex(width/2, height/2, width, height)
     pixelList[firstPixel] = currentColor
     for _, neighbourIndex := range neighbourIndices(firstPixel, width, height) {
         openSet[neighbourIndex] = true
@@ -265,7 +282,7 @@ func computeImage(colorList []int, pixelList []int, rng *rand.Rand, eval Evaluat
         colorIndex = colorIndex + 1
 
         for key, _ := range openSet {
-            currentVal = MinEvaluator(pixelList, neighbourIndices(key, width, height), currentColor, HammingDistEval)
+            currentVal = MinEvaluator(pixelList, neighbourIndices(key, width, height), currentColor, eval)
             if currentVal < bestVal {
                 bestVal = currentVal
                 best = key
@@ -298,7 +315,7 @@ func main() {
 
     m := image.NewNRGBA(image.Rect(0, 0, width, height))
 
-    computeImage(colors, pxList, rng, EuclideanDistEval, width, height)
+    computeImage(colors, pxList, rng, BrightnessDistEval, width, height)
 
     for i := 0; i < width*height; i++ {
         var x, y, err = indexToCoord(i, width, height)
